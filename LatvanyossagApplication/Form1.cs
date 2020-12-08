@@ -84,6 +84,8 @@ namespace LatvanyossagApplication
                         command.CommandText = "INSERT INTO latvanyossagok (varos_id, nev, leiras, ar) VALUES(" + ((Varos)varosok_listBox.SelectedItem).Id + ", '" + latvanyossagneve_txtBox.Text + "', '" + leiras_txtBox.Text + "', " + latvanyar_upDown.Value + ")";
                         MySqlDataReader reader = command.ExecuteReader();
                         reader.Close();
+
+                        latvanyossag_frissites();
                     }
                     catch
                     {
@@ -127,6 +129,38 @@ namespace LatvanyossagApplication
                 }
             }
             reader.Close();
+        }
+
+        private void bttn_varosTorles_Click(object sender, EventArgs e)
+        {
+            if (varosok_listBox.SelectedIndex != -1)
+            {
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM latvanyossagok WHERE varos_id LIKE " + ((Varos)varosok_listBox.SelectedItem).Id;
+                MySqlDataReader reader = command.ExecuteReader();
+                reader.Close();
+
+                command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM varosok WHERE id LIKE " + ((Varos)varosok_listBox.SelectedItem).Id;
+                reader = command.ExecuteReader();
+                reader.Close();
+                latvanyossag_listBox.Items.Clear();
+
+                varoslista_frissites();
+            }
+        }
+
+        private void bttn_latvanyTorles_Click(object sender, EventArgs e)
+        {
+            if (latvanyossag_listBox.SelectedIndex != -1)
+            {
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM latvanyossagok WHERE id LIKE " + ((Latvanyossag)latvanyossag_listBox.SelectedItem).Id;
+                MySqlDataReader reader = command.ExecuteReader();
+                reader.Close();
+
+                latvanyossag_frissites();
+            }
         }
     }
 }

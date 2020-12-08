@@ -42,6 +42,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.bttn_latvanyhoz = new System.Windows.Forms.Button();
+            this.bttn_varosTorles = new System.Windows.Forms.Button();
+            this.bttn_latvanyTorles = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.lakossag_varos_updown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.latvanyar_upDown)).BeginInit();
             this.SuspendLayout();
@@ -67,6 +69,11 @@
             // lakossag_varos_updown
             // 
             this.lakossag_varos_updown.Location = new System.Drawing.Point(194, 76);
+            this.lakossag_varos_updown.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
             this.lakossag_varos_updown.Name = "lakossag_varos_updown";
             this.lakossag_varos_updown.Size = new System.Drawing.Size(100, 20);
             this.lakossag_varos_updown.TabIndex = 2;
@@ -127,6 +134,11 @@
             // latvanyar_upDown
             // 
             this.latvanyar_upDown.Location = new System.Drawing.Point(508, 195);
+            this.latvanyar_upDown.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
             this.latvanyar_upDown.Name = "latvanyar_upDown";
             this.latvanyar_upDown.Size = new System.Drawing.Size(100, 20);
             this.latvanyar_upDown.TabIndex = 9;
@@ -168,11 +180,33 @@
             this.bttn_latvanyhoz.UseVisualStyleBackColor = true;
             this.bttn_latvanyhoz.Click += new System.EventHandler(this.bttn_latvanyhoz_Click);
             // 
+            // bttn_varosTorles
+            // 
+            this.bttn_varosTorles.Location = new System.Drawing.Point(194, 142);
+            this.bttn_varosTorles.Name = "bttn_varosTorles";
+            this.bttn_varosTorles.Size = new System.Drawing.Size(100, 23);
+            this.bttn_varosTorles.TabIndex = 14;
+            this.bttn_varosTorles.Text = "Törlés";
+            this.bttn_varosTorles.UseVisualStyleBackColor = true;
+            this.bttn_varosTorles.Click += new System.EventHandler(this.bttn_varosTorles_Click);
+            // 
+            // bttn_latvanyTorles
+            // 
+            this.bttn_latvanyTorles.Location = new System.Drawing.Point(508, 262);
+            this.bttn_latvanyTorles.Name = "bttn_latvanyTorles";
+            this.bttn_latvanyTorles.Size = new System.Drawing.Size(100, 23);
+            this.bttn_latvanyTorles.TabIndex = 15;
+            this.bttn_latvanyTorles.Text = "Törlés";
+            this.bttn_latvanyTorles.UseVisualStyleBackColor = true;
+            this.bttn_latvanyTorles.Click += new System.EventHandler(this.bttn_latvanyTorles_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(636, 450);
+            this.Controls.Add(this.bttn_latvanyTorles);
+            this.Controls.Add(this.bttn_varosTorles);
             this.Controls.Add(this.bttn_latvanyhoz);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -212,6 +246,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button bttn_latvanyhoz;
+        private System.Windows.Forms.Button bttn_varosTorles;
+        private System.Windows.Forms.Button bttn_latvanyTorles;
     }
 }
 
