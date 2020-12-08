@@ -24,28 +24,19 @@ namespace LatvanyossagApplication
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
                 command.CommandText = "CREATE TABLE IF NOT EXISTS varosok(id int(11) NOT NULL AUTO_INCREMENT, nev text COLLATE utf8mb4_hungarian_ci NOT NULL, lakossag int(11) NOT NULL, PRIMARY KEY(id), UNIQUE KEY nev(nev) USING HASH)";
-                command.ExecuteReader();
-
+                MySqlDataReader reader = command.ExecuteReader();
+                reader.Close();
+                
                 command = connection.CreateCommand();
                 command.CommandText = "CREATE TABLE IF NOT EXISTS latvanyossagok (id int(11) NOT NULL AUTO_INCREMENT, varos_id int(11), nev text COLLATE utf8mb4_hungarian_ci NOT NULL, leiras text COLLATE utf8mb4_hungarian_ci NOT NULL, ar int(11) DEFAULT NULL, PRIMARY KEY(id), FOREIGN KEY(varos_id) REFERENCES varosok(id))";
-                command.ExecuteReader();
-
-                command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM varosok";
-                MySqlDataReader reader;
                 reader = command.ExecuteReader();
-                using (reader)
-                {
-                    while (reader.Read())
-                    {
-                        varosok_listBox.Items.Add(new Varos(int.Parse(reader.GetString("id")), reader.GetString("nev"), int.Parse(reader.GetString("lakossag"))));
-                    }
-                }
                 reader.Close();
+
+                varoslista_frissites();
             }
-            catch
+            catch (Exception ex)
             {  
-                DialogResult hibaUzenet = MessageBox.Show("Hiba a kapccsolódásnál.");
+                DialogResult hibaUzenet = MessageBox.Show("Hiba a kapcsolódásnál." + ex);
                 if (hibaUzenet == DialogResult.OK)
                 {
                     Application.Exit();
@@ -57,19 +48,7 @@ namespace LatvanyossagApplication
         {
             if (varosok_listBox.SelectedIndex != -1)
             {
-                MySqlCommand command = connection.CreateCommand();
-                command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM latvanyossagok WHERE varos_id LIKE " + ((Varos)varosok_listBox.SelectedItem).Id;
-                MySqlDataReader reader;
-                reader = command.ExecuteReader();
-                using (reader)
-                {
-                    while (reader.Read())
-                    {
-                        latvanyossag_listBox.Items.Add();
-                    }
-                }
-                reader.Close();
+                latvanyossag_frissites();
             }
         }
 
@@ -81,7 +60,10 @@ namespace LatvanyossagApplication
                 {
                     MySqlCommand command = connection.CreateCommand();
                     command.CommandText = "INSERT INTO varosok (nev, lakossag) VALUES('" + varosneve_txtBox.Text + "', " + lakossag_varos_updown.Value + ")";
-                    command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    reader.Close();
+
+                    varoslista_frissites();
                 }
                 catch
                 {
@@ -100,7 +82,8 @@ namespace LatvanyossagApplication
                     {
                         MySqlCommand command = connection.CreateCommand();
                         command.CommandText = "INSERT INTO latvanyossagok (varos_id, nev, leiras, ar) VALUES(" + ((Varos)varosok_listBox.SelectedItem).Id + ", '" + latvanyossagneve_txtBox.Text + "', '" + leiras_txtBox.Text + "', " + latvanyar_upDown.Value + ")";
-                        command.ExecuteReader();
+                        MySqlDataReader reader = command.ExecuteReader();
+                        reader.Close();
                     }
                     catch
                     {
@@ -112,6 +95,38 @@ namespace LatvanyossagApplication
             {
                 MessageBox.Show("Válasszon ki egy várost!");
             }
+        }
+
+        private void varoslista_frissites()
+        {
+            varosok_listBox.Items.Clear();
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = "SELECT * FROM varosok";
+            MySqlDataReader reader = command.ExecuteReader();
+            using (reader)
+            {
+                while (reader.Read())
+                {
+                    varosok_listBox.Items.Add(new Varos(int.Parse(reader.GetString("id")), reader.GetString("nev"), int.Parse(reader.GetString("lakossag"))));
+                }
+            }
+            reader.Close();
+        }
+
+        private void latvanyossag_frissites()
+        {
+            latvanyossag_listBox.Items.Clear();
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = "SELECT * FROM latvanyossagok WHERE varos_id LIKE " + ((Varos)varosok_listBox.SelectedItem).Id;
+            MySqlDataReader reader = command.ExecuteReader();
+            using (reader)
+            {
+                while (reader.Read())
+                {
+                    latvanyossag_listBox.Items.Add(new Latvanyossag(int.Parse(reader.GetString("id")), reader.GetString("nev"), reader.GetString("leiras"), int.Parse(reader.GetString("ar")), int.Parse(reader.GetString("varos_id"))));
+                }
+            }
+            reader.Close();
         }
     }
 }

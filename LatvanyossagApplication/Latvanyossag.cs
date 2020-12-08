@@ -28,5 +28,17 @@ namespace LatvanyossagApplication
         public string Leiras { get => leiras; set => leiras = value; }
         public int Ar { get => ar; set => ar = value; }
         public int Varos_id { get => varos_id; set => varos_id = value; }
+
+        public override string ToString()
+        {
+            if (ar == 0)
+            {
+                return nev + " – " + "Ingyenes";
+            }
+            else
+            {
+                return nev + " – " + ar + " Ft";
+            }
+        }
     }
 }
